@@ -42,7 +42,7 @@ class res_partner(osv.osv):
 			#if number is 10 digits or more, add a ( )
 			if len(n) >=10:
 				areaCode = n[-10:-7]
-				formatN = n[:-10]+" ("+areaCode+") "+formatN
+				formatN = n[:-10]+"("+areaCode+")"+formatN
 			print formatN
 		
 		return {'value':{'phone':formatN}}
