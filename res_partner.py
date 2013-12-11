@@ -22,9 +22,18 @@
 from osv import osv,fields
 
 class res_partner(osv.osv):
-
+	#pooler = self.pool.get('res.partner')
 	_inherit = 'res.partner'
 	
-	_columns = {
-        'auto_Format_Phone': fields.char('auto formatting phone', size=17, help="Phone Numbers auto formatted in this field.")
-		}
+	#_columns = {
+    #    'Telephone': fields.char('Telephone', size=17, help="Phone Numbers auto formatted in this field.")
+	#	}
+		
+	def onchange_phone(self,cr,uid,ids,currentNumber,context=None):
+		#currentNumber = str( self.pool.get('res.partner').read(cr,uid,ids,['phone'],context=None)[0]['phone'] )
+		curretNumber = str(currentNumber)
+		if currentNumber == '223':
+			currentNumber = '111'
+		self.pool.get('res.partner').write(cr,uid,ids,{'phone' : currentNumber},context=None)
+		
+		return {'phone':currentNumber}

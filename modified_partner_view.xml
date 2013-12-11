@@ -8,10 +8,8 @@
 				<field name="type">form</field>
 				<field name="inherit_id" ref="base.view_partner_form" />
 				<field name="arch" type="xml">
-					<field name="phone" position="after">
-						<div class="oe_edit_only"> 
-							<field on_change="onchange_phone()" name="auto_Format_Phone" class="oe_inline"></field>
-                        </div>
+					<field name="phone" position="replace" >
+							<field on_change="onchange_phone(phone)" name="phone" ></field>
 					</field>
 				</field>
 		</record>
