@@ -22,18 +22,27 @@
 from osv import osv,fields
 
 class res_partner(osv.osv):
-	#pooler = self.pool.get('res.partner')
 	_inherit = 'res.partner'
-	
-	#_columns = {
-    #    'Telephone': fields.char('Telephone', size=17, help="Phone Numbers auto formatted in this field.")
-	#	}
 		
-	def onchange_phone(self,cr,uid,ids,currentNumber,context=None):
-		#currentNumber = str( self.pool.get('res.partner').read(cr,uid,ids,['phone'],context=None)[0]['phone'] )
-		curretNumber = str(currentNumber)
-		if currentNumber == '223':
-			currentNumber = '111'
-		self.pool.get('res.partner').write(cr,uid,ids,{'phone' : currentNumber},context=None)
+	def onchange_phone(self,cr,uid,ids,phone,context=None):
+		n = u''+str(phone)
+		formatN = ""
+		for c in n: #strip number of existing non-numeric characters, including .'s spaces -'s ()'s.
+				if c.isdigit():
+					formatN += c
+		n = formatN
+			# if number is less than 7 digits, or more than 11, or create an alert telling the user to stop entering bad phone numbers.
+		if len(n) >= 7 and len(n) <= 11:
+			
+			#if number is 7 digits or more, add a - between the 5th and 4th from last digit.
+			if len(n) >= 7:
+				finalFour = n[-4:]
+				prefix = n[-7:-4]
+				formatN = prefix + "-" +finalFour
+			#if number is 10 digits or more, add a ( )
+			if len(n) >=10:
+				areaCode = n[-10:-7]
+				formatN = n[:-10]+" ("+areaCode+") "+formatN
+			print formatN
 		
-		return {'phone':currentNumber}
+		return {'value':{'phone':formatN}}
